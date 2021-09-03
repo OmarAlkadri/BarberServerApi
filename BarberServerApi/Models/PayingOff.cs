@@ -10,16 +10,15 @@ namespace BarberServerApi.Models
 {
     public partial class PayingOff
     {
-        public PayingOff()
-        {
-            Reservation = new HashSet<Reservation>();
-        }
+
         public int PayingOffId { get; set; }
+        public int paid { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public TimeSpan PayingTime { get; set; }
+     //   [DisplayFormat(ApplyFormatInEditMode =true,DataFormatString =  "{mm/dd/yyyy-hh:mm}")]
+        public DateTime PayingTime { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public virtual ICollection<Reservation> Reservation { get; set; }
+        public int? ReservationBarberId { get; set; }
+        public virtual List<ReservationBarber> ReservationBarber { get; set; }
     }
 }

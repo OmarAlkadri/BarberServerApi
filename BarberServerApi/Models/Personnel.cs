@@ -42,8 +42,10 @@ namespace BarberServerApi.Models
 
         public string PersonnelImageUrl { get; set; }
 
+        public int? barberId { get; set; }
         public virtual ICollection<Barber> Barber { get; set; }
 
+        public int? userId { get; set; }
         public virtual ICollection<User> User { get; set; }
     }
 }

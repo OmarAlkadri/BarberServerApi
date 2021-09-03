@@ -14,6 +14,7 @@ namespace BarberServerApi.Models
         public int likes { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
+        public int UserId { get; set; }
         public virtual User User{ get; set; }
 
         public int EntityPostId { get; set; }

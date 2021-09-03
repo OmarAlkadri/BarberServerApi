@@ -15,16 +15,17 @@ namespace BarberServerApi.Models
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public string EntityPostText { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public TimeSpan? EntityPostTime { get; set; }
+        public string? EntityPostTime { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public string EntityImgVideoUrl { get; set; }
+        public string? EntityImgVideoUrl { get; set; }
 
+        public int BarberId { get; set; }
+        public Barber Barber { get; set; }
 
+        public int CommentsId { get; set; }
+        public virtual ICollection<Comments>? Comments { get; set; }
 
-        public virtual ICollection<Comments> Comments { get; set; }
-
-        public virtual ICollection<Likes> Likes { get; set; }
+        public int LikesId { get; set; }
+        public virtual ICollection<Likes>? Likes { get; set; }
     }
 }

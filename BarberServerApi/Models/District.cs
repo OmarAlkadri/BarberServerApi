@@ -20,10 +20,10 @@ namespace BarberServerApi.Models
         public string DistrictName { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-
+        public int NeighborhoodId { get; set; }
         public virtual Neighborhood Neighborhood { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
+        public int ContactInfoId { get; set; }
         public virtual ICollection<ContactInfo> ContactInfo { get; set; }
     }
 }

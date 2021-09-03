@@ -1,5 +1,7 @@
 ﻿using BarberServerApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -25,6 +27,32 @@ namespace BarberServerApi.Data
             //{
             //    builder.HasMany(e => e.User).WithOne().OnDelete(DeleteBehavior.Restrict);
             //});
+
+            modelBuilder.Entity<WorkingHours>().Property(p => p.WorkingHoursOfDay)
+            .HasConversion(
+            v => JsonConvert.SerializeObject(v),
+            v => JsonConvert.DeserializeObject<List<int>>(v));
+
+            modelBuilder.Entity<WorkingHours>().Property(p => p.WorkingDaysOfWeek)
+                .HasConversion(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<Days>>(v));
+
+            modelBuilder.Entity<WorkingHours>().Property(p => p.WorkingMinOfHours)
+                .HasConversion(
+                v => JsonConvert.SerializeObject(v),
+                v => JsonConvert.DeserializeObject<List<Min>>(v));
+
+            modelBuilder.Entity<Barber>()
+             .HasOne(b => b.ContactInfo)
+             .WithOne(i => i.Barber)
+             .HasForeignKey<ContactInfo>(b => b.BarberId);
+
+
+            modelBuilder.Entity<Barber>()
+                .HasOne(b => b.WorkingHours)
+                .WithOne(i => i.Barber)
+                .HasForeignKey<WorkingHours>(b => b.BarberId);
         }
 
         public DbSet<Barber> Barber { get; set; }
@@ -37,7 +65,6 @@ namespace BarberServerApi.Data
         public DbSet<PayingOff> PayingOff { get; set; }
         public DbSet<Personnel> Personnel { get; set; }
         public DbSet<Province> Province { get; set; }
-        public DbSet<Reservation> Reservation { get; set; }
         public DbSet<ReservationBarber> ReservationBarber { get; set; }
         public DbSet<User> User { get; set; }
 
@@ -49,5 +76,6 @@ namespace BarberServerApi.Data
             }
         }
 
+        public DbSet<BarberServerApi.Models.WorkingHours> WorkingHours { get; set; }
     }
 }

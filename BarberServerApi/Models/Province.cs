@@ -10,16 +10,12 @@ namespace BarberServerApi.Models
 {
     public partial class Province
     {
-        public Province()
-        {
-            Neighborhood = new HashSet<Neighborhood>();
-        }
         public int ProvinceId { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public string ProvinceName { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
+        public int NeighborhoodId { get; set; }
         public virtual ICollection<Neighborhood> Neighborhood { get; set; }
     }
 }

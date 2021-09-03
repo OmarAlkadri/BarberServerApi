@@ -29,10 +29,10 @@ namespace BarberServerApi.Controllers
         }
 
         // GET: api/Personnels/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Personnel>> GetPersonnel(int id)
+        [HttpGet("{mail}")]
+        public async Task<ActionResult<Personnel>> GetPersonnel(string mail)
         {
-            var personnel = await _context.Personnel.FindAsync(id);
+            var personnel = await _context.Personnel.SingleOrDefaultAsync(f=>f.PersonnelMaill == mail);
 
             if (personnel == null)
             {

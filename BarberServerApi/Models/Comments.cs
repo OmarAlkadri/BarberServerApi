@@ -12,13 +12,12 @@ namespace BarberServerApi.Models
     {
         public int CommentsId { get; set; }
 
-        public int? EntityPostId { get; set; }
+        public int EntityPostId { get; set; }
         public virtual EntityPost EntityPost { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public string Comments1 { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public User? User { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

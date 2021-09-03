@@ -20,7 +20,6 @@ namespace BarberServerApi.Controllers
         {
             _context = context;
         }
-
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
@@ -28,18 +27,17 @@ namespace BarberServerApi.Controllers
             return await _context.User.ToListAsync();
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        //https://localhost:44307/api/Users/omar/051891
+        [HttpGet("{name}/{pass}")]
+        public async Task<int> GetUserNameAsync(string name, string pass)
         {
-            var user = await _context.User.FindAsync(id);
-
-            if (user == null)
+            var user = await _context.User.SingleOrDefaultAsync(f => f.UserName == name && f.Personnel.PersonnelPassword == pass);
+            if (user==null)
             {
-                return NotFound();
+                return 0;
             }
 
-            return user;
+            return user.UserId;
         }
 
         // PUT: api/Users/5

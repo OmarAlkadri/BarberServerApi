@@ -12,17 +12,24 @@ namespace BarberServerApi.Models
     {
         public int ReservationBarberId { get; set; }
 
-        [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public virtual Reservation Reservation { get; set; }
+        public string Day { get; set; }
+        public string Hour { get; set; }
+        public string Min { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public virtual User? User { get; set; }
+        public int UserId { get; set; }
+
+        public virtual User User { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
-        public virtual Barber? Barber { get; set; }
+        public int BarberId { get; set; }
+        public virtual Barber Barber { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public string ReservationType { get; set; }
+
+        public int? PayingOffId { get; set; }
+        public PayingOff PayingOff { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public bool reservationStatus { get; set; }

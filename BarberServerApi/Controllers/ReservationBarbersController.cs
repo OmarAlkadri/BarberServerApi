@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BarberServerApi.Data;
 using BarberServerApi.Models;
+using BarberServerApi.ViewModels;
 
 namespace BarberServerApi.Controllers
 {
@@ -23,9 +24,29 @@ namespace BarberServerApi.Controllers
 
         // GET: api/ReservationBarbers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReservationBarber>>> GetReservationBarber()
+        public async Task<ActionResult<List<ReservationModel>>> GetReservationBarber()
         {
-            return await _context.ReservationBarber.ToListAsync();
+            var a = await (from data in _context.ReservationBarber
+                           select new ReservationModel
+                           {
+                               BarberId = data.Barber.BarberId,
+                               BarberShowName = data.Barber.BarberShowName,
+                               BarberImg = data.Barber.Personnel.PersonnelImageUrl,
+                               times = data.Day+" - "+ data.Hour+":"+ data.Min,
+                               PayingOffModel = new PayingOffModel
+                               { 
+                                   paid = data.PayingOff.paid
+                               },
+                               ContactInfoModel = new ContactInfoModel
+                               {
+                                   adres = data.Barber.ContactInfo.District.Neighborhood.Province.ProvinceName+" "+
+                                   data.Barber.ContactInfo.District.Neighborhood.NeighborhoodName + " " +
+                                   data.Barber.ContactInfo.District.DistrictName+ " " +
+                                   data.Barber.ContactInfo.StreetAvenueName
+                               },
+
+                           }).ToListAsync();
+            return a;
         }
 
         // GET: api/ReservationBarbers/5

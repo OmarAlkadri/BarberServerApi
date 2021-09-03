@@ -19,16 +19,21 @@ namespace BarberServerApi.Models
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public string CertificationImgUrl { get; set; }
 
+        public int? CommentsId { get; set; }
         public virtual ICollection<Comments> Comments { get; set; }
 
 
         public int? PersonnelId { get; set; }
         public virtual Personnel Personnel { get; set; }
 
+        public int? WorkingHoursId { get; set; }
+        public virtual WorkingHours WorkingHours { get; set; }
+
 
         public virtual ICollection<ReservationBarber> ReservationBarber { get; set; }
 
 
+        public int? ContactInfoId { get; set; }
         public virtual ContactInfo ContactInfo { get; set; }
     }
 }

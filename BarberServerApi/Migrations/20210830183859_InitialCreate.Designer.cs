@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberServerApi.Migrations
 {
     [DbContext(typeof(My_Graduation_Project_DBContext))]
-    [Migration("20210807100420_update-8-7-1")]
-    partial class update871
+    [Migration("20210830183859_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,15 +37,19 @@ namespace BarberServerApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CommentsId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ContactInfoId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PersonnelId")
                         .HasColumnType("int");
 
-                    b.HasKey("BarberId");
+                    b.Property<int?>("WorkingHoursId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ContactInfoId");
+                    b.HasKey("BarberId");
 
                     b.HasIndex("PersonnelId");
 
@@ -63,10 +67,9 @@ namespace BarberServerApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Comments1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EntityPostId")
+                    b.Property<int>("EntityPostId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -90,11 +93,10 @@ namespace BarberServerApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("DistrictId")
-                        .IsRequired()
+                    b.Property<int?>("BarberId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PersonnelId")
+                    b.Property<int?>("DistrictId")
                         .IsRequired()
                         .HasColumnType("int");
 
@@ -104,9 +106,11 @@ namespace BarberServerApi.Migrations
 
                     b.HasKey("ContactInfoId");
 
-                    b.HasIndex("DistrictId");
+                    b.HasIndex("BarberId")
+                        .IsUnique()
+                        .HasFilter("[BarberId] IS NOT NULL");
 
-                    b.HasIndex("PersonnelId");
+                    b.HasIndex("DistrictId");
 
                     b.ToTable("ContactInfo");
                 });
@@ -117,6 +121,9 @@ namespace BarberServerApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ContactInfoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DistrictName")
                         .IsRequired()
@@ -139,19 +146,28 @@ namespace BarberServerApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BarberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CommentsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EntityImgVideoUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EntityPostText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan?>("EntityPostTime")
-                        .IsRequired()
-                        .HasColumnType("time");
+                    b.Property<string>("EntityPostTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LikesId")
+                        .HasColumnType("int");
 
                     b.HasKey("EntityPostId");
+
+                    b.HasIndex("BarberId");
 
                     b.ToTable("EntityPost");
                 });
@@ -166,7 +182,7 @@ namespace BarberServerApi.Migrations
                     b.Property<int>("EntityPostId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<int>("likes")
@@ -187,6 +203,9 @@ namespace BarberServerApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
 
                     b.Property<string>("NeighborhoodName")
                         .IsRequired()
@@ -209,8 +228,14 @@ namespace BarberServerApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<TimeSpan>("PayingTime")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("PayingTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ReservationBarberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("paid")
+                        .HasColumnType("int");
 
                     b.HasKey("PayingOffId");
 
@@ -250,6 +275,12 @@ namespace BarberServerApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("barberId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("userId")
+                        .HasColumnType("int");
+
                     b.HasKey("PersonnelId");
 
                     b.ToTable("Personnel");
@@ -262,6 +293,9 @@ namespace BarberServerApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("NeighborhoodId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProvinceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -269,26 +303,6 @@ namespace BarberServerApi.Migrations
                     b.HasKey("ProvinceId");
 
                     b.ToTable("Province");
-                });
-
-            modelBuilder.Entity("BarberServerApi.Models.Reservation", b =>
-                {
-                    b.Property<int>("ReservationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("PayingOffId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("ReservationTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("ReservationId");
-
-                    b.HasIndex("PayingOffId");
-
-                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("BarberServerApi.Models.ReservationBarber", b =>
@@ -301,7 +315,16 @@ namespace BarberServerApi.Migrations
                     b.Property<int>("BarberId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReservationId")
+                    b.Property<string>("Day")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Hour")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Min")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PayingOffId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReservationType")
@@ -318,7 +341,7 @@ namespace BarberServerApi.Migrations
 
                     b.HasIndex("BarberId");
 
-                    b.HasIndex("ReservationId");
+                    b.HasIndex("PayingOffId");
 
                     b.HasIndex("UserId");
 
@@ -332,8 +355,17 @@ namespace BarberServerApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CommentslId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PersonnelId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("ReservationBarberId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("yas")
                         .HasColumnType("int");
@@ -345,17 +377,44 @@ namespace BarberServerApi.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("BarberServerApi.Models.WorkingHours", b =>
+                {
+                    b.Property<int>("WorkingHoursId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BarberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OpeningTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkingDaysOfWeek")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkingHoursOfDay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WorkingMinOfHours")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("closingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("WorkingHoursId");
+
+                    b.HasIndex("BarberId")
+                        .IsUnique();
+
+                    b.ToTable("WorkingHours");
+                });
+
             modelBuilder.Entity("BarberServerApi.Models.Barber", b =>
                 {
-                    b.HasOne("BarberServerApi.Models.ContactInfo", "ContactInfo")
-                        .WithMany()
-                        .HasForeignKey("ContactInfoId");
-
                     b.HasOne("BarberServerApi.Models.Personnel", "Personnel")
                         .WithMany("Barber")
                         .HasForeignKey("PersonnelId");
-
-                    b.Navigation("ContactInfo");
 
                     b.Navigation("Personnel");
                 });
@@ -368,7 +427,9 @@ namespace BarberServerApi.Migrations
 
                     b.HasOne("BarberServerApi.Models.EntityPost", "EntityPost")
                         .WithMany("Comments")
-                        .HasForeignKey("EntityPostId");
+                        .HasForeignKey("EntityPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BarberServerApi.Models.User", "User")
                         .WithMany("Comments")
@@ -383,21 +444,19 @@ namespace BarberServerApi.Migrations
 
             modelBuilder.Entity("BarberServerApi.Models.ContactInfo", b =>
                 {
+                    b.HasOne("BarberServerApi.Models.Barber", "Barber")
+                        .WithOne("ContactInfo")
+                        .HasForeignKey("BarberServerApi.Models.ContactInfo", "BarberId");
+
                     b.HasOne("BarberServerApi.Models.District", "District")
                         .WithMany("ContactInfo")
                         .HasForeignKey("DistrictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BarberServerApi.Models.Personnel", "Personnel")
-                        .WithMany()
-                        .HasForeignKey("PersonnelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Barber");
 
                     b.Navigation("District");
-
-                    b.Navigation("Personnel");
                 });
 
             modelBuilder.Entity("BarberServerApi.Models.District", b =>
@@ -411,6 +470,17 @@ namespace BarberServerApi.Migrations
                     b.Navigation("Neighborhood");
                 });
 
+            modelBuilder.Entity("BarberServerApi.Models.EntityPost", b =>
+                {
+                    b.HasOne("BarberServerApi.Models.Barber", "Barber")
+                        .WithMany()
+                        .HasForeignKey("BarberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Barber");
+                });
+
             modelBuilder.Entity("BarberServerApi.Models.Likes", b =>
                 {
                     b.HasOne("BarberServerApi.Models.EntityPost", "EntityPost")
@@ -421,7 +491,9 @@ namespace BarberServerApi.Migrations
 
                     b.HasOne("BarberServerApi.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("EntityPost");
 
@@ -439,17 +511,6 @@ namespace BarberServerApi.Migrations
                     b.Navigation("Province");
                 });
 
-            modelBuilder.Entity("BarberServerApi.Models.Reservation", b =>
-                {
-                    b.HasOne("BarberServerApi.Models.PayingOff", "Paying")
-                        .WithMany("Reservation")
-                        .HasForeignKey("PayingOffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Paying");
-                });
-
             modelBuilder.Entity("BarberServerApi.Models.ReservationBarber", b =>
                 {
                     b.HasOne("BarberServerApi.Models.Barber", "Barber")
@@ -458,11 +519,9 @@ namespace BarberServerApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BarberServerApi.Models.Reservation", "Reservation")
+                    b.HasOne("BarberServerApi.Models.PayingOff", "PayingOff")
                         .WithMany("ReservationBarber")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PayingOffId");
 
                     b.HasOne("BarberServerApi.Models.User", "User")
                         .WithMany("ReservationBarber")
@@ -472,7 +531,7 @@ namespace BarberServerApi.Migrations
 
                     b.Navigation("Barber");
 
-                    b.Navigation("Reservation");
+                    b.Navigation("PayingOff");
 
                     b.Navigation("User");
                 });
@@ -486,11 +545,26 @@ namespace BarberServerApi.Migrations
                     b.Navigation("Personnel");
                 });
 
+            modelBuilder.Entity("BarberServerApi.Models.WorkingHours", b =>
+                {
+                    b.HasOne("BarberServerApi.Models.Barber", "Barber")
+                        .WithOne("WorkingHours")
+                        .HasForeignKey("BarberServerApi.Models.WorkingHours", "BarberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Barber");
+                });
+
             modelBuilder.Entity("BarberServerApi.Models.Barber", b =>
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("ContactInfo");
+
                     b.Navigation("ReservationBarber");
+
+                    b.Navigation("WorkingHours");
                 });
 
             modelBuilder.Entity("BarberServerApi.Models.District", b =>
@@ -512,7 +586,7 @@ namespace BarberServerApi.Migrations
 
             modelBuilder.Entity("BarberServerApi.Models.PayingOff", b =>
                 {
-                    b.Navigation("Reservation");
+                    b.Navigation("ReservationBarber");
                 });
 
             modelBuilder.Entity("BarberServerApi.Models.Personnel", b =>
@@ -525,11 +599,6 @@ namespace BarberServerApi.Migrations
             modelBuilder.Entity("BarberServerApi.Models.Province", b =>
                 {
                     b.Navigation("Neighborhood");
-                });
-
-            modelBuilder.Entity("BarberServerApi.Models.Reservation", b =>
-                {
-                    b.Navigation("ReservationBarber");
                 });
 
             modelBuilder.Entity("BarberServerApi.Models.User", b =>

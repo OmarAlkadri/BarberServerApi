@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BarberServerApi.Data;
 using BarberServerApi.Models;
+using BarberServerApi.ViewModels;
 
 namespace BarberServerApi.Controllers
 {
@@ -23,9 +24,29 @@ namespace BarberServerApi.Controllers
 
         // GET: api/EntityPosts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EntityPost>>> GetEntityPost()
+        public async Task<ActionResult<List<EntityPostModel>>> GetEntityPost()
         {
-            return await _context.EntityPost.ToListAsync();
+
+            var a = await (from post in _context.EntityPost
+                           select new EntityPostModel
+                           {
+                               EntityPostId = post.EntityPostId,
+                               EntityPostText = post.EntityPostText,
+                               EntityPostTime = post.EntityPostTime,
+                               entityImgVideoUrl = post.EntityImgVideoUrl,
+                               likes = post.Likes.Count,
+                               barber = new BarberModel {
+                                   name = post.Barber.BarberShowName, 
+                                   ImagUr = post.Barber.Personnel.PersonnelImageUrl
+                               },
+                               CommentModels = (from comment in post.Comments
+                                                select new CommentModel
+                                                {
+                                                    Text = comment.Comments1
+                                                }).ToList(),
+
+                           }).ToListAsync();
+            return a;
         }
 
         // GET: api/EntityPosts/5

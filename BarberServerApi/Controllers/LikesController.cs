@@ -78,6 +78,12 @@ namespace BarberServerApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Likes>> PostLikes(Likes likes)
         {
+            var like=await _context.Likes.SingleOrDefaultAsync(f => f.UserId == likes.UserId && f.EntityPostId == likes.EntityPostId);
+
+            if (like != null) {
+                await DeleteLikes(like.LikesId);
+                return Ok();
+            }
             _context.Likes.Add(likes);
             await _context.SaveChangesAsync();
 
