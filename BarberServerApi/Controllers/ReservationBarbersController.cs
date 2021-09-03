@@ -32,7 +32,9 @@ namespace BarberServerApi.Controllers
                                BarberId = data.Barber.BarberId,
                                BarberShowName = data.Barber.BarberShowName,
                                BarberImg = data.Barber.Personnel.PersonnelImageUrl,
-                               times = data.Day+" - "+ data.Hour+":"+ data.Min,
+                               day = data.Day,
+                               hour =data.Hour,
+                               min =data.Min,
                                PayingOffModel = new PayingOffModel
                                { 
                                    paid = data.PayingOff.paid

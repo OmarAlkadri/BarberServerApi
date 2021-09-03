@@ -313,14 +313,14 @@ namespace BarberServerApi.Migrations
                     b.Property<int>("BarberId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Day")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Hour")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Min")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Min")
+                        .HasColumnType("int");
 
                     b.Property<int?>("PayingOffId")
                         .HasColumnType("int");

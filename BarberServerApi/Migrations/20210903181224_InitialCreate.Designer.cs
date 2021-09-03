@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BarberServerApi.Migrations
 {
     [DbContext(typeof(My_Graduation_Project_DBContext))]
-    [Migration("20210830183859_InitialCreate")]
+    [Migration("20210903181224_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -315,14 +315,14 @@ namespace BarberServerApi.Migrations
                     b.Property<int>("BarberId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Day")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Hour")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Min")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Min")
+                        .HasColumnType("int");
 
                     b.Property<int?>("PayingOffId")
                         .HasColumnType("int");

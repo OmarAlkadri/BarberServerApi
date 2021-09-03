@@ -12,9 +12,9 @@ namespace BarberServerApi.Models
     {
         public int ReservationBarberId { get; set; }
 
-        public string Day { get; set; }
-        public string Hour { get; set; }
-        public string Min { get; set; }
+        public int Day { get; set; }
+        public int Hour { get; set; }
+        public int Min { get; set; }
 
         [Required(ErrorMessage = "{0} alanı boş bırakılamaz")]
         public int UserId { get; set; }
